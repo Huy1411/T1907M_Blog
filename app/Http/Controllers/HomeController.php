@@ -7,7 +7,9 @@ use App\Category;
 use App\Events\OrderCreated;
 use App\Order;
 use App\Product;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+//        $u = Auth::user();
+//        $u->role = User::ADMIN_ROLE;
+//        $u->save();
         if(!Cache::has("home_page")) {
             $most_views = Product::orderBy("view_count", "DESC")->limit(8)->get();
             $featureds = Product::orderBy("updated_at", "DESC")->limit(8)->get();
@@ -68,7 +73,8 @@ class HomeController extends Controller
         ]);
     }
 
-    public function addToCart(Product $product,Request $request){
+    public function addToCart(Product $product,Request $request)
+    {
         $qty = $request->has("qty")&& (int)$request->get("qty")>0?(int)$request->get("qty"):1;
         $myCart = session()->has("my_cart")&& is_array(session("my_cart"))?session("my_cart"):[];
         $contain = false;
