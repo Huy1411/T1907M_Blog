@@ -28,7 +28,7 @@ class HomeController extends Controller
 //        $u = Auth::user();
 //        $u->role = User::ADMIN_ROLE;
 //        $u->save();
-        if(!Cache::has("home_page")) {
+//        if(!Cache::has("home_page")) {
             $most_views = Product::orderBy("view_count", "DESC")->limit(8)->get();
             $featureds = Product::orderBy("updated_at", "DESC")->limit(8)->get();
             $latest_1 = Product::orderBy("created_at", "DESC")->limit(3)->get();
@@ -49,8 +49,8 @@ class HomeController extends Controller
                 "latest_2" => $latest_2,
             ])->render();
             $now = Carbon::now();
-            Cache::put("home_page", $view, $now->addMinute(20));
-        }
+//            Cache::put("home_page", $view, $now->addMinute(20));
+//        }
         return Cache::get("home_page");
     }
 
